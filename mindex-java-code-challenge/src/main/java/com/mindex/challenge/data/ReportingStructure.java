@@ -23,6 +23,8 @@ public class ReportingStructure {
      */
     private List<String> recursionCheck = new ArrayList<String>();
 
+    public ReportingStructure(){}
+
     /**
      * Constructor
      * 
