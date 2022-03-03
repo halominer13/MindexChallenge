@@ -5,11 +5,11 @@ import java.util.Date;
 public class Compensation {
     private Employee employee;
     private Double salary;
-    private String effectiveDate;
+    private Date effectiveDate;
 
     public Compensation(){}
 
-    public Compensation(Employee employee, Double salary, String effectiveDate){
+    public Compensation(Employee employee, Double salary, Date effectiveDate){
         this.employee = employee;
         this.salary = salary;
         this.effectiveDate = effectiveDate;
@@ -31,11 +31,11 @@ public class Compensation {
         this.salary = salary;
     }
 
-    public String getEffectiveDate(){
+    public Date getEffectiveDate(){
         return effectiveDate;
     }
 
-    public void setEffectiveDate(String effectiveDate){
+    public void setEffectiveDate(Date effectiveDate){
         this.effectiveDate = effectiveDate;
     }
 

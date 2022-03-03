@@ -9,7 +9,6 @@ import java.util.UUID;
 
 import com.mindex.challenge.data.Compensation;
 import com.mindex.challenge.data.Employee;
-import com.mindex.challenge.service.CompensationService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -27,9 +26,6 @@ public class CompensationServiceImplTest {
     private String createCompURL;
     private String readCompURL;
 
-    //@Autowired
-    private CompensationService compensationService;
-
     @LocalServerPort
     private int port;
 
@@ -42,11 +38,20 @@ public class CompensationServiceImplTest {
         readCompURL = "http://localhost:" + port + "/compensation/{id}";
     }
 
+    /**
+     * THIS TEST IS KNOWN TO FAIL
+     * 
+     * Due to an issue with the CompensationController class being unable to use @Autowired on the CompensationService,
+     * this test is guaranteed to fail as the Compensation code is not working and cannot be tested properly
+     */
     @Test
     public void compensationTest(){
+        //Setup
         Employee employee = new Employee();
 
-        employee.setEmployeeId(UUID.randomUUID().toString());
+        String employeeID = UUID.randomUUID().toString();
+
+        employee.setEmployeeId(employeeID);
         employee.setFirstName("John");
         employee.setLastName("Smith");
         employee.setPosition("Developer");
@@ -57,13 +62,20 @@ public class CompensationServiceImplTest {
         Calendar calendar = Calendar.getInstance();
         calendar.set(2022, 2, 1, 10, 0, 0);
         Date effectiveDate = calendar.getTime();
-        /*
+        
         Compensation compensation = new Compensation(employee, salary, effectiveDate);
 
+        //Create Test
         Compensation returnedCompensation = restTemplate.postForEntity(createCompURL, compensation, Compensation.class).getBody();
 
+        //This assertion is failing because the returned compensation value is all Nulls (due to issues up the line as described in the method header)
         assertNotNull(returnedCompensation.getEmployee());
-        assertCompensationEquivalence(compensation, returnedCompensation);*/
+        assertCompensationEquivalence(compensation, returnedCompensation);
+
+        //Read Test
+        Compensation readTestCompensation = restTemplate.getForEntity(readCompURL, Compensation.class, employeeID).getBody();
+        assertNotNull(readTestCompensation.getEmployee());
+        assertCompensationEquivalence(compensation, readTestCompensation);
     }
 
     private static void assertCompensationEquivalence(Compensation expected, Compensation actual){

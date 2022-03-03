@@ -28,6 +28,7 @@ public class ReportingStructureServiceImplTest {
 
     @Before
     public void setup() {
+        //Use the 'John Lennon' employee from the server snapshot as he is a known employee value for this test
         reportingStructureURL = "http://localhost:" + port + "/ReportingStructure/{id}";
         johnLennonId = "16a596ae-edd3-4847-99fe-c4518e82c86f";
     }

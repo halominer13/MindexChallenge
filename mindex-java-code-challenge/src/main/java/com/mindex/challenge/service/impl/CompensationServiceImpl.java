@@ -17,8 +17,11 @@ public class CompensationServiceImpl implements CompensationService {
     private CompensationRepository compensationRepository;
 
     @Autowired
-    private EmployeeService employeeService;
+    private EmployeeService emplyoeeService;
 
+    /**
+     * Add the new compensation to the CompensationRepository so it is persisted
+     */
     @Override
     public Compensation create(Compensation compensation) {
         LOG.debug("Creating compensation [{}]", compensation);
@@ -26,11 +29,15 @@ public class CompensationServiceImpl implements CompensationService {
         return compensation;
     }
 
+    /**
+     * When reading based on the employeeID, we first need to get the employee via the existing
+     * endpoints. Once we have the employee, we can find the compensation based on the reported employee
+     */
     @Override
     public Compensation read(String id) {
         LOG.debug("Reading compensation information for employee with id [{}]", id);
         
-        Employee employee = employeeService.read(id);
+        Employee employee = emplyoeeService.read(id);
 
         if(employee == null){
             throw new RuntimeException("Invalid employeeId: " + id);
